@@ -18,14 +18,13 @@ fetch("./texts.json")
     questionText = data[Math.floor(Math.random() * data.length)];
     question.innerHTML = questionText;
   });
-
 // checks the user typed character and displays accordingly
 const typeController = (e) => {
   const newLetter = e.key;
   console.log(newLetter)
 
   // Handle backspace press
-  if (newLetter == "Backspace") {
+  if (newLetter === "Backspace") {
     userText = userText.slice(0, userText.length - 1);
     return display.removeChild(display.lastChild);
   }
@@ -64,7 +63,7 @@ const validate = (key) => {
 
 // FINISHED TYPING
 const gameOver = () => {
-  document.removeEventListener("keydown", typeController);
+  document.addEventListener("keydown", typeController);
   // the current time is the finish time
   // so total time taken is current time - start time
   const finishTime = new Date().getTime();
@@ -89,7 +88,7 @@ const gameOver = () => {
   addHistory(questionText, timeTaken, errorCount);
 
   // restart everything
-  startTime = null;
+  startTime = 0;
   errorCount = 0;
   userText = "";
   display.classList.add("inactive");
@@ -114,7 +113,7 @@ const start = () => {
     if (count === 0) {
       // -------------- START TYPING -----------------
       document.addEventListener("keydown", typeController);
-      countdownOverlay.style.display = "flex";
+      countdownOverlay.style.display = "none";
       display.classList.remove("inactive");
 
       clearInterval(startCountdown);
@@ -136,5 +135,5 @@ setInterval(() => {
   const timeSpent = (currentTime - startTime) / 1000;
 
 
-  document.getElementById("show-time").innerHTML = `${startTime ? timeSpent : 0} seconds`;
+  document.getElementById("show-time").innerHTML = `${parseInt(startTime) ? parseInt(timeSpent) : 0} seconds`;
 }, 1000);
